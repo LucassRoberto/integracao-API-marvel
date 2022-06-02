@@ -1,82 +1,83 @@
 package com.projeto.apimarvel.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Objects;
+import java.util.Date;
 
 @Entity
 @Table(name = "tb_user")
 public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String name;
-	private String cpf;
-	private Instant dob;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public User (){
-	}
+    @NotNull
+    private String name;
 
-	public User(Long id, String name, String cpf, Instant dob) {
-		this.id = id;
-		this.name = name;
-		this.cpf = cpf;
-		this.dob = dob;
-	}
+    @NotNull
+    private String email;
+    @NotNull
+    private String cpf;
 
-	public Long getId() {
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+    private Date dob;
 
-        return id;
-	}
+    @Deprecated
+    public User() {
+    }
 
-	public void setId(Long id) {
 
+    public User(Long id, String name, String email, String cpf, Date dob) {
         this.id = id;
-	}
-
-	public String getName() {
-
-        return name;
-	}
-
-	public void setName(String name) {
-
         this.name = name;
-	}
-
-	public String getCpf() {
-
-        return cpf;
-	}
-
-	public void setCpf(String cpf) {
-
+        this.email = email;
         this.cpf = cpf;
-	}
-
-	public Instant getDob() {
-
-        return dob;
-	}
-
-	public void setDob(Instant dob) {
-
         this.dob = dob;
-	}
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof User)) return false;
-		User user = (User) o;
-		return getId().equals(user.getId()) && Objects.equals(getName(), user.getName()) && Objects.equals(getCpf(), user.getCpf()) && Objects.equals(getDob(), user.getDob());
-	}
+    public Long getId() {
+        return id;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(getId());
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
