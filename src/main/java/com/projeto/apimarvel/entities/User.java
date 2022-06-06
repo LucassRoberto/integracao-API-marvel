@@ -21,9 +21,12 @@ public class User implements Serializable {
     @NotBlank
     private String name;
 
+    @Column(unique = true)
     @NotBlank
     @Email
     private String email;
+
+    @Column(unique = true)
     @NotBlank
     @CPF
     private String cpf;
