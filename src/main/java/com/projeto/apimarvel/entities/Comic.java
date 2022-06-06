@@ -3,6 +3,7 @@ package com.projeto.apimarvel.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name="tb_comic")
@@ -22,16 +23,22 @@ public class Comic implements Serializable {
     private String author;
 
     @NotBlank
-    private Integer isbn;
+    private String isbn;
 
     @NotBlank
     private String description;
+
+    @ManyToMany
+    @JoinTable(name="tb_comic_author", //nome da nova tabela
+            joinColumns = @JoinColumn(name="comic_id"),
+            inverseJoinColumns = @JoinColumn(name="author_id"))
+    public List<Author> authorList;
 
     @Deprecated
     public Comic() {
     }
 
-    public Comic(Long id, String title, Double price, String author, Integer isbn, String description) {
+    public Comic(Long id, String title, Double price, String author, String isbn, String description) {
         this.id = id;
         this.title = title;
         this.price = price;
@@ -72,11 +79,11 @@ public class Comic implements Serializable {
         this.author = author;
     }
 
-    public Integer getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(Integer isbn) {
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
@@ -86,5 +93,13 @@ public class Comic implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Author> getAuthorList() {
+        return authorList;
+    }
+
+    public void setAuthorList(List<Author> authorList) {
+        this.authorList = authorList;
     }
 }
