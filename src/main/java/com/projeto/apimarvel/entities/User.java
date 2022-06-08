@@ -7,7 +7,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_user")
@@ -32,6 +34,12 @@ public class User implements Serializable {
     private String cpf;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date dob;
+
+    @ManyToMany
+    @JoinTable(name = "tb_user_comic", //nome da nova tabela
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "comic_id"))
+    public List<Comic> comicList = new ArrayList<>();
 
     @Deprecated
     public User() {
@@ -84,5 +92,13 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Comic> getComicList() {
+        return comicList;
+    }
+
+    public void setComicList(List<Comic> comicList) {
+        this.comicList = comicList;
     }
 }

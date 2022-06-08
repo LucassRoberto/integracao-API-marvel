@@ -1,14 +1,18 @@
 package com.projeto.apimarvel.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="tb_comic")
+@Table(name = "tb_comic")
 public class Comic implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,11 +20,8 @@ public class Comic implements Serializable {
     @NotBlank
     private String title;
 
-    @NotBlank
     private Double price;
 
-    @NotBlank
-    private String author;
 
     @NotBlank
     private String isbn;
@@ -29,20 +30,23 @@ public class Comic implements Serializable {
     private String description;
 
     @ManyToMany
-    @JoinTable(name="tb_comic_author", //nome da nova tabela
-            joinColumns = @JoinColumn(name="comic_id"),
-            inverseJoinColumns = @JoinColumn(name="author_id"))
-    public List<Author> authorList;
+    @JoinTable(name = "tb_comic_author", //nome da nova tabela
+            joinColumns = @JoinColumn(name = "comic_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
+    public List<Author> authors = new ArrayList<>();
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "comicList")
+    public List<User> users = new ArrayList<>();
 
     @Deprecated
     public Comic() {
     }
 
-    public Comic(Long id, String title, Double price, String author, String isbn, String description) {
+    public Comic(Long id, String title, Double price, String isbn, String description) {
         this.id = id;
         this.title = title;
         this.price = price;
-        this.author = author;
         this.isbn = isbn;
         this.description = description;
     }
@@ -71,13 +75,6 @@ public class Comic implements Serializable {
         this.price = price;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
 
     public String getIsbn() {
         return isbn;
@@ -95,11 +92,11 @@ public class Comic implements Serializable {
         this.description = description;
     }
 
-    public List<Author> getAuthorList() {
-        return authorList;
+    public List<Author> getAuthors() {
+        return authors;
     }
 
-    public void setAuthorList(List<Author> authorList) {
-        this.authorList = authorList;
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
     }
 }
